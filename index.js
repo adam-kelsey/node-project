@@ -19,13 +19,24 @@ app.get('/', function (req, res) {
   var buffer = ''
 
   users.forEach(function (user) {
-    buffer += user.name.full + '<br>'
+    buffer += '<a href="/' + user.username + '">' + user.name.full + '<br>'
   })
   res.send(buffer)
 })
 
-app.get('/yo', function (req, res) {
-  res.send('YO!')
+app.get(/big.*/, function (req, res, next) {
+  console.log('BIG USER ACCESS')
+  next()
+})
+
+app.get(/dog.*/, function (req, res, next) {
+  console.log('DOGS GO WOOF')
+  next()
+})
+
+app.get('/:username', function (req, res) {
+  var username = req.params.username
+  res.send(username)
 })
 
 var server = app.listen(3000, function() {
